@@ -10,7 +10,7 @@ mathjax: false
 telnet 连接163服务器发送邮件的命令:
 使用下面的命令连接到163的服务器。
 
-```
+```console
 telnet smtp.163.com 25
 ```
 
@@ -22,7 +22,7 @@ telnet smtp.163.com 25
 
 连接到服务器:
 
-```
+```console
 Trying 220.181.12.12...
 Connected to smtp.163.com.
 Escape character is '^]'.
@@ -40,7 +40,7 @@ S:250 8BITMIME
 
 登录服务器:
 
-```
+```console
 C:AUTH LOGIN
 S:334 dXNlcm5hbWU6
 C:Base64(userName)
@@ -55,13 +55,13 @@ S:235 Authentication successful
 
 发送邮件：
 
-```
-C:MAIL FROM:  dennismi@163.com>
+```console
+C:MAIL FROM:  <dennismi@163.com>
 S:250 Mail OK
-C:RCPT TO:  dennismi1024@gmail.com>
+C:RCPT TO:  <dennismi1024@gmail.com>
 S:250 Mail OK
 C:DATA
-S:354 End data with  CR> LF>. CR> LF>
+S:354 End data with  <CR> <LF>. <CR> <LF>
 C:Subject:Design Plan
 C:From:"" dennismi@163.com>
 C:To:"" dennismi1024@gmail.com>
@@ -70,9 +70,4 @@ C:To:"" dennismi1024@gmail.com>
 .
 
 Connection closed by foreign host.
- ``` /pre>
-
-
-
-
- ZPMQOQLWSQLUSCEW
+```

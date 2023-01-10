@@ -93,7 +93,7 @@ make -j
 找到 ```add_executable(calcu ${SOURCE_FILE}) ```
 在后面添加
 
-```
+```cmake
 if(PVS_STUDIO)
     include(../PVS-Studio.cmake)
     pvs_studio_add_target(TARGET example1.analyze ALL
@@ -122,8 +122,8 @@ endif()
 修改源代码
 在每个源文件的前面，加入以下两行.
 
-```
-cpp// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+```cpp
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 ```
 
