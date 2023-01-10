@@ -161,7 +161,7 @@ void process_cli(Client *client, char* recvbuf, int len,int count)
 ```
 
 
-```
+```cpp
 /* client */
 #include <stdio.h>
 #include <sys/types.h>
@@ -228,7 +228,7 @@ int main(int argc, char *argv[])
 }
 ```
 
-```
+```cpp
 /*common.h*/
 #ifndef COMMON_H_
 #define COMMON_H_
@@ -274,7 +274,7 @@ std::string GetCurrentTime(){
 #endif
 ```
 
-```
+```cmake
 cmake_minimum_required(VERSION 2.8)
 
 ## Use the variable PROJECT_NAME for changing the target name

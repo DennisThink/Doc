@@ -23,117 +23,117 @@ mathjax: false
   7 //      are turned off for this file, and add _MERGE_PROXYSTUB to the 
   8 //      defines for the project.  
   9 //
- 10 //      If you are not running WinNT4.0 or Win95 with DCOM, then you
- 11 //      need to remove the following define from dlldatax.c
- 12 //      #define _WIN32_WINNT 0x0400
- 13 //
- 14 //      Further, if you are running MIDL without /Oicf switch, you also 
- 15 //      need to remove the following define from dlldatax.c.
- 16 //      #define USE_STUBLESS_PROXY
- 17 //
- 18 //      Modify the custom build rule for MyAddin.idl by adding the following 
- 19 //      files to the Outputs.
+ //      If you are not running WinNT4.0 or Win95 with DCOM, then you
+ //      need to remove the following define from dlldatax.c
+ //      #define _WIN32_WINNT 0x0400
+ //
+ //      Further, if you are running MIDL without /Oicf switch, you also 
+ //      need to remove the following define from dlldatax.c.
+ //      #define USE_STUBLESS_PROXY
+ //
+ //      Modify the custom build rule for MyAddin.idl by adding the following 
+ //      files to the Outputs.
  20 //          MyAddin_p.c
- 21 //          dlldata.c
- 22 //      To build a separate proxy/stub DLL, 
- 23 //      run nmake -f MyAddinps.mk in the project directory.
- 24 
- 25 #include "stdafx.h"
- 26 #include "resource.h"
- 27 #include <initguid.h>
- 28 #include "MyAddin.h"
- 29 #include "dlldatax.h"
- 30 
- 31 #include "MyAddin_i.c"
- 32 #include "WordAddin.h"
- 33 
- 34 #ifdef _MERGE_PROXYSTUB
- 35 extern "C" HINSTANCE hProxyDll;
- 36 #endif
- 37 
- 38 CComModule _Module;
- 39 
- 40 BEGIN_OBJECT_MAP(ObjectMap)
- 41 OBJECT_ENTRY(CLSID_WordAddin, CWordAddin)
- 42 END_OBJECT_MAP()
- 43 
- 44 /////////////////////////////////////////////////////////////////////////////
- 45 // DLL Entry Point
- 46 
- 47 extern "C"
- 48 BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
- 49 {
- 50         MessageBox(NULL,"DllMain",NULL,MB_OK);
- 51     lpReserved;
- 52 #ifdef _MERGE_PROXYSTUB
- 53     if (!PrxDllMain(hInstance, dwReason, lpReserved))
- 54         return FALSE;
- 55 #endif
- 56     if (dwReason == DLL_PROCESS_ATTACH)
- 57     {
- 58         _Module.Init(ObjectMap, hInstance, &LIBID_MYADDINLib);
- 59         DisableThreadLibraryCalls(hInstance);
- 60     }
- 61     else if (dwReason == DLL_PROCESS_DETACH)
- 62         _Module.Term();
- 63     return TRUE;    // ok
- 64 }
- 65 
- 66 /////////////////////////////////////////////////////////////////////////////
- 67 // Used to determine whether the DLL can be unloaded by OLE
- 68 
- 69 STDAPI DllCanUnloadNow(void)
- 70 {
- 71     MessageBox(NULL,"DllCanUnloadNow",NULL,MB_OK);
- 72 #ifdef _MERGE_PROXYSTUB
- 73     if (PrxDllCanUnloadNow() != S_OK)
- 74         return S_FALSE;
- 75 #endif
- 76     return (_Module.GetLockCount()==0) ? S_OK : S_FALSE;
- 77 }
- 78 
- 79 /////////////////////////////////////////////////////////////////////////////
- 80 // Returns a class factory to create an object of the requested type
- 81 
- 82 STDAPI DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID* ppv)
- 83 {
- 84         MessageBox(NULL,"DllGetClassObject",NULL,MB_OK);
- 85 #ifdef _MERGE_PROXYSTUB
- 86     if (PrxDllGetClassObject(rclsid, riid, ppv) == S_OK)
- 87         return S_OK;
- 88 #endif
- 89 
- 90     return _Module.GetClassObject(rclsid, riid, ppv);
- 91 }
- 92 
- 93 /////////////////////////////////////////////////////////////////////////////
- 94 // DllRegisterServer - Adds entries to the system registry
- 95 
- 96 STDAPI DllRegisterServer(void)
- 97 {
- 98     MessageBox(NULL,"DllRegisterServer",NULL,MB_OK);
- 99 #ifdef _MERGE_PROXYSTUB
-100     HRESULT hRes = PrxDllRegisterServer();
-101     if (FAILED(hRes))
-102         return hRes;
-103 #endif
-104     // registers object, typelib and all interfaces in typelib
-105     
-106     return _Module.RegisterServer(TRUE);
-107 }
-108 
-109 /////////////////////////////////////////////////////////////////////////////
-110 // DllUnregisterServer - Removes entries from the system registry
-111 
-112 STDAPI DllUnregisterServer(void)
-113 {
-114     MessageBox(NULL,"DllUnregisterServer",NULL,MB_OK);
-115 #ifdef _MERGE_PROXYSTUB
-116     PrxDllUnregisterServer();
-117 #endif
-118 
-119     return _Module.UnregisterServer(TRUE);
-120 }
+ //          dlldata.c
+ //      To build a separate proxy/stub DLL, 
+ //      run nmake -f MyAddinps.mk in the project directory.
+ 
+ #include "stdafx.h"
+ #include "resource.h"
+ #include <initguid.h>
+ #include "MyAddin.h"
+ #include "dlldatax.h"
+ 
+ #include "MyAddin_i.c"
+ #include "WordAddin.h"
+ 
+ #ifdef _MERGE_PROXYSTUB
+ extern "C" HINSTANCE hProxyDll;
+ #endif
+ 
+ CComModule _Module;
+ 
+ BEGIN_OBJECT_MAP(ObjectMap)
+ OBJECT_ENTRY(CLSID_WordAddin, CWordAddin)
+ END_OBJECT_MAP()
+ 
+ /////////////////////////////////////////////////////////////////////////////
+ // DLL Entry Point
+ 
+ extern "C"
+ BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
+ {
+         MessageBox(NULL,"DllMain",NULL,MB_OK);
+     lpReserved;
+ #ifdef _MERGE_PROXYSTUB
+     if (!PrxDllMain(hInstance, dwReason, lpReserved))
+         return FALSE;
+ #endif
+     if (dwReason == DLL_PROCESS_ATTACH)
+     {
+         _Module.Init(ObjectMap, hInstance, &LIBID_MYADDINLib);
+         DisableThreadLibraryCalls(hInstance);
+     }
+     else if (dwReason == DLL_PROCESS_DETACH)
+         _Module.Term();
+     return TRUE;    // ok
+ }
+ 
+ /////////////////////////////////////////////////////////////////////////////
+ // Used to determine whether the DLL can be unloaded by OLE
+ 
+ STDAPI DllCanUnloadNow(void)
+ {
+     MessageBox(NULL,"DllCanUnloadNow",NULL,MB_OK);
+ #ifdef _MERGE_PROXYSTUB
+     if (PrxDllCanUnloadNow() != S_OK)
+         return S_FALSE;
+ #endif
+     return (_Module.GetLockCount()==0) ? S_OK : S_FALSE;
+ }
+ 
+ /////////////////////////////////////////////////////////////////////////////
+ // Returns a class factory to create an object of the requested type
+ 
+ STDAPI DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID* ppv)
+ {
+         MessageBox(NULL,"DllGetClassObject",NULL,MB_OK);
+ #ifdef _MERGE_PROXYSTUB
+     if (PrxDllGetClassObject(rclsid, riid, ppv) == S_OK)
+         return S_OK;
+ #endif
+ 
+     return _Module.GetClassObject(rclsid, riid, ppv);
+ }
+ 
+ /////////////////////////////////////////////////////////////////////////////
+ // DllRegisterServer - Adds entries to the system registry
+ 
+ STDAPI DllRegisterServer(void)
+ {
+     MessageBox(NULL,"DllRegisterServer",NULL,MB_OK);
+ #ifdef _MERGE_PROXYSTUB
+   HRESULT hRes = PrxDllRegisterServer();
+    if (FAILED(hRes))
+        return hRes;
+#endif
+    // registers object, typelib and all interfaces in typelib
+    
+    return _Module.RegisterServer(TRUE);
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// DllUnregisterServer - Removes entries from the system registry
+
+STDAPI DllUnregisterServer(void)
+{
+    MessageBox(NULL,"DllUnregisterServer",NULL,MB_OK);
+#ifdef _MERGE_PROXYSTUB
+    PrxDllUnregisterServer();
+#endif
+
+    return _Module.UnregisterServer(TRUE);
+}
 还有一份代码如下：
 
   1 // WordAddin.h : Declaration of the CWordAddin
@@ -235,81 +235,81 @@ mathjax: false
  97         ::OpenClipboard(NULL);
  98         ::EmptyClipboard();
  99         ::SetClipboardData(CF_BITMAP, (HANDLE)hBmp);
-100         ::CloseClipboard();
-101         ::DeleteObject(hBmp);        
-102         
-103         
-104         spCmdButton->PutStyle(Office::msoButtonIconAndCaption);
-105         hr = spCmdButton->PasteFace();
-106         if (FAILED(hr))
-107             return hr;
-108         
-109         spCmdButton->PutVisible(VARIANT_TRUE); 
-110         spCmdButton->PutCaption(OLESTR("myAddin")); 
-111         spCmdButton->PutEnabled(VARIANT_TRUE);
-112         spCmdButton->PutTooltipText(OLESTR("test1")); 
-113         spCmdButton->PutTag(OLESTR("test1")); 
-114         
-115         spNewCmdBar->PutVisible(VARIANT_TRUE); 
-116         
-117         m_spCmdButton = spCmdButton;
-118 
-119         CommandButton1Events::DispEventAdvise((IDispatch*)m_spCmdButton);
-120         return S_OK;
-121     }
-122     STDMETHOD(OnDisconnection)(ext_DisconnectMode RemoveMode, SAFEARRAY * * custom)
-123     {
-124         MessageBox(NULL,"OnDisconnection",NULL,MB_OK);
-125         if(m_spCmdButton != NULL)
-126             CommandButton1Events::DispEventUnadvise((IDispatch*)m_spCmdButton);
-127         return S_OK;
-128     }
-129     STDMETHOD(OnAddInsUpdate)(SAFEARRAY * * custom)
-130     {
-131         MessageBox(NULL,"OnAddInsUpdate",NULL,MB_OK);
-132         return S_OK;
-133     }
-134     STDMETHOD(OnStartupComplete)(SAFEARRAY * * custom)
-135     {
-136         MessageBox(NULL,"OnStartupComplete",NULL,MB_OK);
-137         return S_OK;
-138     }
-139     STDMETHOD(OnBeginShutdown)(SAFEARRAY * * custom)
-140     {
-141         MessageBox(NULL,"OnBeginShutdown",NULL,MB_OK);
-142         return S_OK;
-143     }
-144 
-145     void __stdcall OnClickButton1(IDispatch * /*Office::_CommandBarButton**/ Ctrl,VARIANT_BOOL * CancelDefault);
-146 
-147     // IRibbonExtensibility
-148     STDMETHOD(raw_GetCustomUI)(BSTR RibbonID, BSTR * RibbonXml)
-149     {
-150         MessageBox(NULL,"raw_GetCustomUI",NULL,MB_OK);
-151         OutputDebugString("raw_GetCustomUI");
-152         char szRibbon[MAX_PATH*10] = {0x00};
-153         LoadString(_Module.GetModuleInstance(),IDS_RIBBON_XML, \
-154             szRibbon, MAX_PATH*10);
-155         if (RibbonXml == NULL)
-156             return E_POINTER;
-157 
-158         OutputDebugString(szRibbon);
-159         
-160         CComBSTR bstr(szRibbon);
-161         bstr.CopyTo(RibbonXml);//use this to avoid heap destroy
-162         bstr.Empty();
-163         return S_OK;
-164     }
-165 };
-166 
-167 #endif //__WORDADDIN_H_
+        ::CloseClipboard();
+        ::DeleteObject(hBmp);        
+        
+        
+        spCmdButton->PutStyle(Office::msoButtonIconAndCaption);
+        hr = spCmdButton->PasteFace();
+        if (FAILED(hr))
+            return hr;
+        
+        spCmdButton->PutVisible(VARIANT_TRUE); 
+        spCmdButton->PutCaption(OLESTR("myAddin")); 
+        spCmdButton->PutEnabled(VARIANT_TRUE);
+        spCmdButton->PutTooltipText(OLESTR("test1")); 
+        spCmdButton->PutTag(OLESTR("test1")); 
+        
+        spNewCmdBar->PutVisible(VARIANT_TRUE); 
+        
+        m_spCmdButton = spCmdButton;
+
+        CommandButton1Events::DispEventAdvise((IDispatch*)m_spCmdButton);
+        return S_OK;
+    }
+    STDMETHOD(OnDisconnection)(ext_DisconnectMode RemoveMode, SAFEARRAY * * custom)
+    {
+        MessageBox(NULL,"OnDisconnection",NULL,MB_OK);
+        if(m_spCmdButton != NULL)
+            CommandButton1Events::DispEventUnadvise((IDispatch*)m_spCmdButton);
+        return S_OK;
+    }
+    STDMETHOD(OnAddInsUpdate)(SAFEARRAY * * custom)
+    {
+        MessageBox(NULL,"OnAddInsUpdate",NULL,MB_OK);
+        return S_OK;
+    }
+    STDMETHOD(OnStartupComplete)(SAFEARRAY * * custom)
+    {
+        MessageBox(NULL,"OnStartupComplete",NULL,MB_OK);
+        return S_OK;
+    }
+    STDMETHOD(OnBeginShutdown)(SAFEARRAY * * custom)
+    {
+        MessageBox(NULL,"OnBeginShutdown",NULL,MB_OK);
+        return S_OK;
+    }
+
+    void __stdcall OnClickButton1(IDispatch * /*Office::_CommandBarButton**/ Ctrl,VARIANT_BOOL * CancelDefault);
+
+    // IRibbonExtensibility
+    STDMETHOD(raw_GetCustomUI)(BSTR RibbonID, BSTR * RibbonXml)
+    {
+        MessageBox(NULL,"raw_GetCustomUI",NULL,MB_OK);
+        OutputDebugString("raw_GetCustomUI");
+        char szRibbon[MAX_PATH*10] = {0x00};
+        LoadString(_Module.GetModuleInstance(),IDS_RIBBON_XML, \
+            szRibbon, MAX_PATH*10);
+        if (RibbonXml == NULL)
+            return E_POINTER;
+
+        OutputDebugString(szRibbon);
+        
+        CComBSTR bstr(szRibbon);
+        bstr.CopyTo(RibbonXml);//use this to avoid heap destroy
+        bstr.Empty();
+        return S_OK;
+    }
+};
+
+#endif //__WORDADDIN_H_
 这是两个主要的文件。
 
 注意两个问题：
 
-160         CComBSTR bstr(szRibbon);
-161         bstr.CopyTo(RibbonXml);//use this to avoid heap destroy
-162         bstr.Empty();
+        CComBSTR bstr(szRibbon);
+        bstr.CopyTo(RibbonXml);//use this to avoid heap destroy
+        bstr.Empty();
 这三行代码是为了防止程序退出时，插件对word的内存进行修改，导致堆错误，Word会Crash。函数的含义请参考MSDN。
 
 ```

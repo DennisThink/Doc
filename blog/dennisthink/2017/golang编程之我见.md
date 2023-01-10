@@ -24,7 +24,7 @@ mathjax: false
 golang作为一个在21世纪出现的编程语言，提供了interface和struct，却没有提供继承、封装和多态。
 其继承关系由接口来表示，例如
 
-```
+```golang
 //golang 
 type IParent interface {
     func Print()
