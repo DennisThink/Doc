@@ -10,20 +10,15 @@ comment: false
 mathjax: false
 ---
 
-大家好，很高兴你来我的博客，以下是我的一点介绍。
+大家好，我叫米彦辉，网名DennisThink.
 
-我叫米彦辉，目前在北京从事软件开发的工作，主要的编程语言是C++(在学习C++11),会一点go和python。
+目前在北京从事软件开发的工作，主要的编程语言是C++。
 
 上班用Windows，下班用Ubuntu，有关的问题可以交流。
 
-北漂的程序员一枚。
-
-喜欢C/C++,Ubuntu，会一点golang和python。
-
-喜欢做饭，喜欢看电影，文艺片和伦理片爱好者。
-
-喜欢读书，从小到大唯一坚持的事情，目前在看《台北人》、《纽约客》。
-
-
+>联系方式:
 
 我的Github: [Github](https://www.github.com/DennisThink/)
+
+Email:dennisthink@hotmail.com 
+
